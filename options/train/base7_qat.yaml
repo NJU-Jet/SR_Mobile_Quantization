@@ -1,0 +1,52 @@
+# generate settings
+name: base7
+gpu_ids: [0]
+train: ~
+
+# datasets
+datasets:
+  train:
+    dataroot_HR: data/DIV2K/bin/DIV2K_train_HR
+    dataroot_LR: data/DIV2K/bin/DIV2K_train_LR_bicubic/XN
+    filename_path: data/DIV2K_train.txt
+    patch_size: 64
+    batch_size: 16
+    flip: true
+    rot: true
+    enlarge_times: 20
+  val:
+    dataroot_HR: data/DIV2K/bin/DIV2K_train_HR
+    dataroot_LR: data/DIV2K/bin/DIV2K_train_LR_bicubic/XN
+    filename_path: data/DIV2K_val.txt
+    enlarge_times: 1
+
+# networks
+networks:
+  which_model: base7
+  scale: 3
+  in_channels: 3
+  num_fea: 28
+  m: 4
+  out_channels: 3
+
+# path to save
+paths:
+  experiment_root: ./experiment
+
+# optimizer
+solver:
+  lr: !!float 1e-3
+  lr_steps:
+    - 50
+    - 100
+    - 150
+    - 200
+  lr_gamma: !!float 0.5
+  loss: mae
+  epochs: 220
+  workers: 8
+  val_step: 1
+  resume: ~
+  resume_path: ~
+  qat: ~
+  qat_path: ~
