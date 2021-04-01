@@ -1,6 +1,6 @@
 # Introduction
 A good solution for [MAI2021 Competition(CVPR2021 Workshop)](https://competitions.codalab.org/competitions/28119). Our model can achieve the best trade-off between mobile inference time and reconstruction quality during validating phase, but unfortunately, following code is ignored during testing phase thus leading to incorrect dequantization. After correcting, we are confident enough that our method is the most efficient among existing methods on mobile devices such as Synaptics smart TV platform.
-```bash
+```python
 # In solvers/networks/base7.py
 out = tf.keras.backend.clip(out, 0., 255.)
 ```
@@ -16,7 +16,7 @@ Since cache memory is limited, some mechanisms such as feature fusion and attent
 
 * Another more convolution after deep feature extraction
 
-After deep feature extraction, existing methods use one convolution to map features to origin image space, followed by a depth-to-space(PixelShuffle in Pytorch) layer. We find that in image space, one more convolution can significantly improve the performance compared with adding one convolution in deep feature extraction stage(+0.11dB)
+After deep feature extraction, existing methods use one convolution to map features to origin image space, followed by a depth-to-space(PixelShuffle in Pytorch) layer. We find that in image space, one more convolution can significantly improve the performance compared with adding one convolution in deep feature extraction stage(+0.11dB).
 
 # Requirements
 I also provide [requirements.yaml](https://github.com/NJU-Jet/SR\_Framework/blob/master/sr\_framework/requirements.yaml) for you to copy my conda environment. If you have anaconda, you can use the following codes:
