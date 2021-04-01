@@ -1,3 +1,6 @@
+# Introduction
+A good solution for [MAI2021 Competition(CVPR2021 Workshop)](https://competitions.codalab.org/competitions/28119). Our model can achieve the best trade-off between mobile inference time and reconstruction quality during validating phase, but unfortunately, following code is ignored during testing phase thus leading to incorrect dequantization. Anyway, we are confident enough that our method is the most efficient among existing methods on mobile devices such as Synaptics smart TV platform.
+
 # Requirements
 * Python
     * numpy         1.19.1
