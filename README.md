@@ -43,52 +43,42 @@ Download [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) and put DIV2K in dat
 
 >>> DIV2K\_train\_LR\_bicubic
 >>>> X2
->>>>> 0001x8.png
+>>>>> 0001x2.png
 
 >>>>> ...
 
->>>>> 0900x8.png
+>>>>> 0900x2.png
 
-# Train on DIV2K
-1. Download DIV2K dataset from [EDVR](https://github.com/xinntao/EDVR/blob/master/docs/DatasetPreparation.md#REDS), unpack the tar file to any place you want.
-2. Change ```dataroot_HR``` and ```dataroot_LR``` arguments in ```options/train/{model}.yaml``` to the place where DIV2K images are located.(change {model} according to your need)
-3. Run(change {model} according to your need, --use_chop is for saving memory in validation stage):
+# Training
 ```bash
-python train.py --opt options/train/{model}.yaml --name {name} --scale 2 --lr 2e-4 --bs 16 --ps 64 --gpu_ids 0 --use_chop
+python train.py --opt options/train/base7.yaml --name base7_D4C28_bs16ps64_lr1e-3 --scale 3  --bs 16 --ps 64 --lr 1e-3 --gpu_ids 0
 ```
-You can also use the dafault setting which keeps the same with the original article by running:
-```bash
-python train.py --opt options/train/{model}.yaml --name {name} --scale {scale} --gpu_ids {ids}
-```
-**Note**: ```gpu_ids``` can be a series of numbers separated by comma, like ```0,1,3```.
+**Note**: 
 The argument ```--name``` specifies the following save path:
 * Log file will be saved in ```log/{name}.log```
-* Checkpoint and current best weights will be saved in ```experiment/{name}/{epochs}/```
-* Train/Val loss and psnr/ssim will be saved in ```experiment/{name}/records/```
-* Visualization of Train and Validate will be saved in ```../Tensorboard/{name}/```
+* Checkpoint and current best weights will be saved in ```experiment/{name}/best_status/
+* Visualization of Train and Validate will be saved in ```Tensorboard/{name}/```
 
+You can use tensorboard to monitor the training and validating process by:
+```bash
+tensorboard --logdir Tensorboard
+```
 
-# Train on your own dataset
-1. Change ```dataroot_HR``` and ```dataroot_LR``` arguments in ```options/train/{model}.yaml``` to the place where your images are located.(change {model} according to your need)
-2. Change ```mode``` argument in ```options/train/{model}.yaml``` to ```TrainLRHR```
-3. Run(change {model} according to your need, --use_chop is for saving memory in validation stage):
+# Quantization-Aware Training
 ```bash
-python train.py --opt options/train/{model}.yaml --name {model}_bs16ps64lr2e-4_x2 --scale 2 --lr 2e-4 --bs 16 --ps 64 --gpu_ids 0 --use_chop
+python train.py --opt options/train/base7_qat.yaml --name base7_D4C28_bs16ps64_lr1e-3_qat --scale 3  --bs 16 --ps 64 --lr 1e-3 --gpu_ids 0 --qat --qat_path experiment/base7_D4C28_bs16ps64_lr1e-3/best_status
 ```
-* Log file will be saved in ```log/{name}.log```
-* Checkpoint and current best weights will be saved in ```experiment/{name}/{epochs}/```
-* Train/Val loss and psnr/ssim will be saved in ```experiment/{name}/records/```
-* Visualization of Train and Validate will be saved in ```../Tensorboard/{name}/```
 
-# Test on Benchmark(Set5, Set14, B100, Urban100, Mango109)
-1. Download benchmark dataset from [EDVR](https://github.com/xinntao/EDVR/blob/master/docs/DatasetPreparation.md#REDS), unpack the tar file to any place you want.
-2. Change ```dataroot_HR``` and ```dataroot_LR``` arguments in ```options/test/base.yaml``` to the place where benchmark images are located.
-3. Run:
-```bash
-python test.py --opt options/test/base.yaml --dataset_name {dataset_name} --scale {scale} --which_model {model} --pretrained {pretrained_path}
+# Convert keras model to TFLite Format which can run on mobile device
+``` bash
+python generate_tflite.py
 ```
-For example:
-```bash
-python test.py --opt options/test/base.yaml --dataset_name Set5 --scale 2 --which_model EDSR --pretrained pretrained/EDSR.pth
-```
-* Psnr & ssim of each image will be printed on your screen.
+Then the converted tflite model will be saved in ```TFMODEL/```. ```TFMODEL/{name}.tflite``` is used for predicting high-resolution image(arbitary low-resolution input shape is allowed), while ```TFMODEL/{name}_time.tflite``` fixes model input shape to ```[1, 360, 640, 3]``` for getting inference time.
+
+# Run TFLite Model on your own devices
+1. Download AI Benchmark from the [Google Play](https://play.google.com/store/apps/details?id=org.benchmark.demo) / [website](https://polybox.ethz.ch/index.php/s/diruRfJZ4JqS4tZ) and run its standard tests.
+2. After the end of the tests, enter the **PRO Model** and select the **Custom Model** tab there.
+3. send your tflite model to your device and remember its location, then run the model.
+
+# Contact
+:) If you have any questions, feel free to contact 151220022@smail.nju.edu.cn

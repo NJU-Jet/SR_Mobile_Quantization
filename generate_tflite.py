@@ -105,12 +105,13 @@ def evaluate(quantized_model_path, save_path):
 
 
 if __name__ == '__main__':
-    name = 'base7_D4C28_bs16ps64_lr1e-3'
+    #name = 'base7_D4C28_bs16ps64_lr1e-3'
+    name = 'base7_D4C28_bs16ps64_lr1e-3_qat'
     model_path = 'experiment/{}/best_status'.format(name)
     save_path = 'experiment/{}/visual'.format(name)
     quantized_model_path = 'TFMODEL/{}.tflite'.format(name)
 
-    #quantize(model_path, quantized_model_path, time=False)
+    quantize(model_path, quantized_model_path, time=False)
     quantize(model_path, quantized_model_path, time=True)
     
     evaluate(quantized_model_path, save_path)
