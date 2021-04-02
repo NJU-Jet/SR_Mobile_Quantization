@@ -56,7 +56,7 @@ python train.py --opt options/train/base7.yaml --name base7_D4C28_bs16ps64_lr1e-
 **Note**: 
 The argument ```--name``` specifies the following save path:
 * Log file will be saved in ```log/{name}.log```
-* Checkpoint and current best weights will be saved in ```experiment/{name}/best_status/
+* Checkpoint and current best weights will be saved in ```experiment/{name}/best_status/```
 * Visualization of Train and Validate will be saved in ```Tensorboard/{name}/```
 
 You can use tensorboard to monitor the training and validating process by:
@@ -65,11 +65,12 @@ tensorboard --logdir Tensorboard
 ```
 
 # Quantization-Aware Training
+If you haven't worked with Tensorflow Lite and network quantization before, please refer to [official guideline](https://www.tensorflow.org/model_optimization/guide/quantization/training_example). This technology inserts fake quantization nodes to make the weights aware that themselves will be quantized. For this model, you can simply use the following script to perform QAT:
 ```bash
 python train.py --opt options/train/base7_qat.yaml --name base7_D4C28_bs16ps64_lr1e-3_qat --scale 3  --bs 16 --ps 64 --lr 1e-3 --gpu_ids 0 --qat --qat_path experiment/base7_D4C28_bs16ps64_lr1e-3/best_status
 ```
 
-# Convert keras model to TFLite Format which can run on mobile device
+# Convert to TFLite which can run on mobile device
 ``` bash
 python generate_tflite.py
 ```
