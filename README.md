@@ -79,7 +79,7 @@ Then the converted tflite model will be saved in ```TFMODEL/```. ```TFMODEL/{nam
 # Run TFLite Model on your own devices
 1. Download AI Benchmark from the [Google Play](https://play.google.com/store/apps/details?id=org.benchmark.demo) / [website](https://polybox.ethz.ch/index.php/s/diruRfJZ4JqS4tZ) and run its standard tests.
 2. After the end of the tests, enter the **PRO Model** and select the **Custom Model** tab there.
-3. send your tflite model to your device and remember its location, then run the model.
+3. Send your tflite model to your device and remember its location, then run the model.
 
 # Contact
 :) If you have any questions, feel free to contact 151220022@smail.nju.edu.cn
