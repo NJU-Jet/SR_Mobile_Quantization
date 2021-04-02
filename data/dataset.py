@@ -7,9 +7,13 @@ import os
 import os.path as osp
 import pickle
 
-
 class DIV2K(tf.keras.utils.Sequence):
     def __init__(self, opt):
+        # convert .png file to .pt for faster loading
+        self.opt = opt
+        self.convert_img_to_pt(key='dataroot_HR')
+        self.convert_img_to_pt(key='dataroot_LR')
+
         self.dataroot_hr = opt['dataroot_HR']
         self.dataroot_lr = opt['dataroot_LR']
         self.filename_path = opt['filename_path']
@@ -26,6 +30,37 @@ class DIV2K(tf.keras.utils.Sequence):
             filenames = f.readlines()
         for line in filenames:
             self.img_list.append(line.strip())
+
+    def convert_img_to_pt(self, key):
+        if self.opt[key][-1] == '/':
+            self.opt[key] = self.opt[key][:-1]
+        img_list = os.listdir(self.opt[key])
+        
+        need_convert = False
+        for i in range(len(img_list)):
+            _, ext = osp.splitext(img_list[i])
+            if ext != '.pt':
+                need_convert = True
+                break
+        if need_convert == False:
+            return
+        
+        new_dir_path = self.opt[key] + '_pt'
+        if osp.exists(new_dir_path) and len(os.listdir(new_dir_path))==len(img_list):
+            self.opt[key] = new_dir_path
+            return
+
+        os.makedirs(new_dir_path, exist_ok=True)
+        for i in range(len(img_list)):
+            base, ext = osp.splitext(img_list[i])
+            src_path = osp.join(self.opt[key], img_list[i])
+            dst_path = osp.join(new_dir_path, base+'.pt')             
+            with open(dst_path, 'wb') as _f:
+                img = cv2.imread(src_path)      
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                pickle.dump(img, _f)
+        self.opt[key] = new_dir_path
+
 
     def shuffle(self):
         random.shuffle(self.img_list)
