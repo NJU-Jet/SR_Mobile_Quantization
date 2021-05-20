@@ -1,4 +1,5 @@
 # Introduction
+<<<<<<< HEAD
 A winner solution for [MAI2021 Competition(CVPR2021 Workshop)](https://competitions.codalab.org/competitions/28119). Our model outperforms other participtants by a large margin in terms of both inference speed and reconstruction performance. 
 
 Challenge report: [Mobile AI 2021 Real-Time Image Super-Resolution Challenge](https://arxiv.org/pdf/2105.07825.pdf).
@@ -9,13 +10,23 @@ Our paper: [Anchor-based Plain Net for Mobile Image Super-Resolution](watting).
 
 ## Meta-node latency
 we conduct an experiment about meta-node latency by decomposing lightweight SR architectures, which determines the portable operations we can utilize
+=======
+A Winner solution for [MAI2021 Competition(CVPR2021 Workshop)](https://competitions.codalab.org/competitions/28119). Our model outperforms other participants by a large margin in terms of both inference speed and reconstruction results. 
+
+# Contribution for INT8 Quantization SR Mobile Network
+## Investigation of meta-node latency
+We conduct an experiment about meta-node latency by decomposing lightweight SR architectures, which determines the portable operations we can utilize. This step is curcial important if you want to deploy your model across mobile device.
+>>>>>>> 33b34bfd2c0de1755cf74c98d90102aef5db1b96
 
 ## Anchor-based residual learning
 
 
+<<<<<<< HEAD
 For **full-integer** quantization which means all the weights and activations are int8, it's obvious a better choice to learn residual(always close to zero) rather than directly mapping low-resolution image to high-resolution image. In existing methods, **residual learning** can be divided into two categories: (1). Image space residual learning means passing the interpolated-input(bilinear, bicubic) to network output. (2).Feature space residual learning means passing the output of shallow convolutional layer to network output. For float32 quantized model, feature space residual learning is slightly better(+0.08dB). For int8 quantized model, image space residual learning is always better(**+0.3dB**) because it forces the whole network to learn subtle change, thus a set of continuous real-valued numbers can be represented more accurately using a fixed discrete set of numbers. However, bilinear resize and nearest neighbor resize is really slow on mobile device due to pixel-wise multiplication when doing coordinate mapping. Our anchor-based residual learning can enjoy the good property of image space residual learning while being as fast as feature space residual learning. The core operation is repeating input nine times(for x3 scale) and add it to the feature before depth-to-space. See our architecture in [model](https://github.com/NJU-Jet/SR_Mobile_Quantization/blob/master/solvers/networks/base7.py).
 
 
+=======
+>>>>>>> 33b34bfd2c0de1755cf74c98d90102aef5db1b96
 ## Another more convolution after deep feature extraction
 
 After deep feature extraction, existing methods use one convolution to map features to origin image space, followed by a depth-to-space(PixelShuffle in Pytorch) layer. We find that in image space, one more convolution can significantly improve the performance compared with adding one convolution in deep feature extraction stage(**+0.11dB**).
