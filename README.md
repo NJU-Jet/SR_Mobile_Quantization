@@ -1,6 +1,9 @@
 # Introduction
 A winner solution for [MAI2021 Competition(CVPR2021 Workshop)](https://competitions.codalab.org/competitions/28119). Our model outperforms other participtants by a large margin in terms of both inference speed and reconstruction performance. 
 
+Challenge report: [Mobile AI 2021 Real-Time Image Super-Resolution Challenge](https://arxiv.org/pdf/2105.07825.pdf).
+
+Our paper: [Anchor-based Plain Net for Mobile Image Super-Resolution](watting).
 
 # Contribution for INT8 Quantization SR Mobile Network
 
