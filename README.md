@@ -3,7 +3,7 @@ A winner solution for [MAI2021 Competition(CVPR2021 Workshop)](https://competiti
 
 Challenge report: [Mobile AI 2021 Real-Time Image Super-Resolution Challenge](https://arxiv.org/pdf/2105.07825.pdf).
 
-Our paper: [Anchor-based Plain Net for Mobile Image Super-Resolution](watting).
+Our paper: [Anchor-based Plain Net for Mobile Image Super-Resolution](https://arxiv.org/abs/2105.09750).
 
 # Contribution for INT8 Quantization SR Mobile Network
 ## Investigation of meta-node latency
