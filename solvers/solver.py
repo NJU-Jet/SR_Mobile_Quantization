@@ -64,7 +64,7 @@ class Solver():
             self.lg.info('Start annotating other parts of model...')
             annotate_model = tfmot.quantization.keras.quantize_annotate_model(annotate_model)
             self.lg.info('Creating quantize-aware model...')
-            depth_to_space = Lambda(lambda x: tf.nn.depth_to_space(x, 3))
+            depth_to_space = Lambda(lambda x: tf.nn.depth_to_space(x, args['networks']['scale']))
             with tfmot.quantization.keras.quantize_scope({'NoOpQuantizeConfig': NoOpQuantizeConfig, 'depth_to_space': depth_to_space, 'tf': tf}):
                 self.model = tfmot.quantization.keras.quantize_apply(annotate_model)
         else:
