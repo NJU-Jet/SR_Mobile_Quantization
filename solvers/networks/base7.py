@@ -9,7 +9,7 @@ import numpy as np
 def base7(scale=3, in_channels=3, num_fea=28, m=4, out_channels=3):
     inp = Input(shape=(None, None, 3)) 
     upsample_func = Lambda(lambda x_list: tf.concat(x_list, axis=3))
-    upsampled_inp = upsample_func([inp, inp, inp, inp, inp, inp, inp, inp, inp])
+    upsampled_inp = upsample_func([inp]*(scale**2))
 
     # Feature extraction
     x = Conv2D(num_fea, 3, padding='same', activation='relu', kernel_initializer=glorot_normal(), bias_initializer='zeros')(inp)
